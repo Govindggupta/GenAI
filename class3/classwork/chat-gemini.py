@@ -76,49 +76,52 @@ system_prompt = f"""
 #     print("❌ Failed to parse response as JSON:", response.text)
 
 # rather than writting this again and again , we make it in a loop which keeps on taking the output till final steps is achieved
-    
-    
-messages = []
-query = input('> ')
-messages.append(json.dumps({'step' : 'query', 'content' : query}))
+while True:
 
-while True: 
-    response = client.models.generate_content(
-        config=types.GenerateContentConfig(system_instruction=system_prompt),
-        model='gemini-2.0-flash-001',
-        contents=messages,
-    )
-    cleaned_text = re.sub(r"^```json|```$", "", response.text.strip(), flags=re.MULTILINE).strip()
-    try: 
-        parsed_output = json.loads(cleaned_text)
-        messages.append(json.dumps(parsed_output))
-    except json.JSONDecodeError:
-        print("❌ Failed to parse response as JSON:", response.text)
         
-        
-    if parsed_output.get("step") == "plan": 
-        print(f"🧠: {parsed_output.get('content')}")
-        continue
-    
-    if parsed_output.get("step") == "action": 
-        tool_name = parsed_output.get("function")
-        tool_input = parsed_output.get("input")
-        
-        if available_tools.get(tool_name, False) != False: 
-            output = available_tools[tool_name].get("fn")(tool_input)
-            messages.append(json.dumps({"step": "observe", "output":  output}))
+    messages = []
+    query = input('> ')
+    if(query == "exit"):
+        break
+    messages.append(json.dumps({'step' : 'query', 'content' : query}))
+
+    while True: 
+        response = client.models.generate_content(
+            config=types.GenerateContentConfig(system_instruction=system_prompt),
+            model='gemini-2.0-flash-001',
+            contents=messages,
+        )
+        cleaned_text = re.sub(r"^```json|```$", "", response.text.strip(), flags=re.MULTILINE).strip()
+        try: 
+            parsed_output = json.loads(cleaned_text)
+            messages.append(json.dumps(parsed_output))
+        except json.JSONDecodeError:
+            print("❌ Failed to parse response as JSON:", response.text)
+            
+            
+        if parsed_output.get("step") == "plan": 
+            print(f"🧠: {parsed_output.get('content')}")
             continue
         
-    if parsed_output.get("step") == "output": 
-        print(f"🤖: {parsed_output.get('content')}")
-        break
+        if parsed_output.get("step") == "action": 
+            tool_name = parsed_output.get("function")
+            tool_input = parsed_output.get("input")
+            
+            if available_tools.get(tool_name, False) != False: 
+                output = available_tools[tool_name].get("fn")(tool_input)
+                messages.append(json.dumps({"step": "observe", "output":  output}))
+                continue
+            
+        if parsed_output.get("step") == "output": 
+            print(f"🤖: {parsed_output.get('content')}")
+            break
 
+            
         
-    
+            
+            
         
         
-    
-    
     
 # while True: 
 #     user_query = input('> ')
