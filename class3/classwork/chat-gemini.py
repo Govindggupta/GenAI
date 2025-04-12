@@ -4,7 +4,7 @@ from google.genai import types
 import re
 import os
 
-client = genai.Client(api_key='AIzaSyBgDhIc9WWUuvsJUqcwvrqc5MjN5iUvwZ4')
+client = genai.Client(api_key='Your API Key')
 
 system_prompt = f"""
     You are a AI agent who is specialized in solving user queries.
