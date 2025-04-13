@@ -7,8 +7,12 @@ import requests
 
 client = genai.Client(api_key='AIzaSyBgDhIc9WWUuvsJUqcwvrqc5MjN5iUvwZ4')
 
+def run_command(command):
+    result = os.system(command=command)
+    return result
+
 def get_weather(city): 
-    print("tool called get weather")
+    print("tool called get weather", city)
     url = f"https://wttr.in/{city}?format=%C+%t"
     response = requests.get(url)
 
@@ -16,10 +20,22 @@ def get_weather(city):
         return f"The weather in {city} is {response.text}."
     return "Something went wrong"
 
+def addition(x, y):
+    print("tool called addition", x, y)
+    return x + y
+
 available_tools = {
     "get_weather": {
         "fn": get_weather,
         "description": "Takes a city name as an input and returns the current weather for the city"
+    },
+    "addition": {
+        "fn": addition,
+        "description": "Takes two numbers as input and returns the sum of the two numbers"
+    },
+    "run_command": {
+        "fn": run_command,
+        "description": "Takes a command as input to execute on system and returns ouput"
     }
 }
 
@@ -43,6 +59,9 @@ system_prompt = f"""
 
     Available Tools:
     - get_weather: Takes a city name as an input and returns the current weather for the city
+    - addition: Takes two numbers as input and returns the sum of the two numbers
+    - run_command: Takes a command as input to execute on system and returns ouput
+    
 
     Example:
     User Query: What is the weather of new york?
