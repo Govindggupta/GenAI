@@ -5,7 +5,7 @@ import re
 import os
 import requests
 
-client = genai.Client(api_key='AIzaSyBgDhIc9WWUuvsJUqcwvrqc5MjN5iUvwZ4')
+client = genai.Client(api_key='your key')
 
 def run_command(command):
     result = os.system(command=command)
