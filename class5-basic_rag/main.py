@@ -38,7 +38,7 @@ def ask_nodejs_doc(query: str) -> str:
 
 
 client = OpenAI(
-    api_key="AIzaSyBfbdVV0YNmWCK2p5q_qnWzKHwdMlu0T5s",
+    api_key="gemini_api_key",
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/",
 )
 

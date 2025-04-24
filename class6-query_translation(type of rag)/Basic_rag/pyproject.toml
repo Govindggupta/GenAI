@@ -1,0 +1,17 @@
+[project]
+name = "basic-rag"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "langchain-community>=0.3.22",
+    "langchain-google-genai>=2.1.3",
+    "langchain-qdrant>=0.2.0",
+    "langchain-text-splitters>=0.3.8",
+    "openai>=1.76.0",
+    "openapi>=2.0.0",
+    "pypdf>=5.4.0",
+    "python-dotenv>=1.1.0",
+]
