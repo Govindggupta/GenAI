@@ -5,7 +5,7 @@ from colorama import Fore, Style
 import json
 
 embedder = GoogleGenerativeAIEmbeddings(
-    google_api_key="AIzaSyBfbdVV0YNmWCK2p5q_qnWzKHwdMlu0T5s", model="models/text-embedding-004")
+    google_api_key="gemini_api_key", model="models/text-embedding-004")
 
 
 def get_relevant_chunks(query):
