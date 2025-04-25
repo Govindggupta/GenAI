@@ -72,6 +72,8 @@ while True:
     message = []
     message.append({"role": "system", "content": system_prompt})
     user_query = input(f"{Fore.BLUE} > {Style.RESET_ALL}")
+    if (user_query == "exit"):
+        break
     message.append({"role": "user", "content": user_query})
 
     while True:
