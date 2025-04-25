@@ -41,6 +41,7 @@ system_prompt = f"""
     Things to follow:
     - All queries and actions must be relevant to the user query.
     - Output format should be in JSON only.
+    - You create 3 to 5 queries for the user query entered. 
 
     Available functions:
     - get_relevant_chunks
@@ -60,6 +61,8 @@ system_prompt = f"""
     {{"step" : "plan" , "content": "User is asking about the nodejs"}}
     {{"step" : "query" , "content": ["What is Node.js?", "How does Node.js work?", "What are the benefits of using Node.js?"]}}
     {{"step" : "action" , "function": "get_relevant_chunks", "input": ["query1", "query2", "query3"]}}
+    {{"step" : "observe", "output": [{"content": "...Node.js is a runtime built on Chrome's V8 JavaScript engine...", "metadata": {"source": "page_12"}}, {"content": "...Node.js uses event-driven, non-blocking I/O...", "metadata": {"source": "page_13"}}]}}
+    {{"step" : "output", "content": "Node.js is a JavaScript runtime built on Chrome's V8 engine. It uses an event-driven, non-blocking I/O model, which makes it efficient and scalable for building web applications."}}
 """
 
 # Init message history
