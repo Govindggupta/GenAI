@@ -67,55 +67,56 @@ system_prompt = f"""
     Output: {{ "step": "output", "content": "The FS module allows working with the file system..." }}
 """
 
-
-message = []
-message.append({"role": "system", "content": system_prompt})
-user_query = input(f"{Fore.BLUE} > {Style.RESET_ALL}")
-message.append({"role": "user", "content": user_query})
-
 while True:
 
-    response = client.chat.completions.create(
-        model="gemini-2.0-flash",
-        response_format={"type": "json_object"},
-        messages=message
-    )
+    message = []
+    message.append({"role": "system", "content": system_prompt})
+    user_query = input(f"{Fore.BLUE} > {Style.RESET_ALL}")
+    message.append({"role": "user", "content": user_query})
 
-    parsed_output = json.loads(response.choices[0].message.content)
-    message.append({"role": "assistant", "content": json.dumps(parsed_output)})
+    while True:
 
-    if parsed_output.get("step") == "plan":
-        print(f"{Fore.GREEN} {parsed_output.get('content')} {Style.RESET_ALL}")
-        continue
+        response = client.chat.completions.create(
+            model="gemini-2.0-flash",
+            response_format={"type": "json_object"},
+            messages=message
+        )
 
-    if parsed_output.get("step") == "action":
+        parsed_output = json.loads(response.choices[0].message.content)
+        message.append({"role": "assistant", "content": json.dumps(parsed_output)})
 
-        tool_name = parsed_output.get("function")
-        tool_input = parsed_output.get("input")
-
-        if tool_name in available_tools:
-            result = available_tools[tool_name]["fn"](tool_input)
-            print(f"{Fore.GREEN} {Style.DIM} {result} {Style.RESET_ALL}")
-
-            result_serializable = [
-                {
-                    "content": doc.page_content,
-                    # includes page, author, source file, etc.
-                    "metadata": doc.metadata
-                }
-                for doc in result
-            ]
-
-            message.append({
-                "role": "assistant",
-                "content": json.dumps({
-                    "step": "observe",
-                    "output": result_serializable
-                })
-            })
+        if parsed_output.get("step") == "plan":
+            print(f"{Fore.GREEN} {parsed_output.get('content')} {Style.RESET_ALL}")
             continue
 
-    if parsed_output.get("step") == "output":
-        print(
-            f"{Fore.BLUE} Your final Output : {parsed_output.get('content')} {Style.RESET_ALL}")
-        break
+        if parsed_output.get("step") == "action":
+
+            tool_name = parsed_output.get("function")
+            tool_input = parsed_output.get("input")
+
+            if tool_name in available_tools:
+                result = available_tools[tool_name]["fn"](tool_input)
+                print(f"{Fore.GREEN} {Style.DIM} {result} {Style.RESET_ALL}")
+
+                result_serializable = [
+                    {
+                        "content": doc.page_content,
+                        # includes page, author, source file, etc.
+                        "metadata": doc.metadata
+                    }
+                    for doc in result
+                ]
+
+                message.append({
+                    "role": "assistant",
+                    "content": json.dumps({
+                        "step": "observe",
+                        "output": result_serializable
+                    })
+                })
+                continue
+
+        if parsed_output.get("step") == "output":
+            print(
+                f"{Fore.BLUE} Your final Output : {parsed_output.get('content')} {Style.RESET_ALL}")
+            break

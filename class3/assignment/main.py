@@ -3,7 +3,7 @@ import re
 import json
 from colorama import Fore, Style
 
-client = genai.Client(api_key="AIzaSyAIqbBcL12mUsbF1n9rP1WMhXcSqlCWc_c")
+client = genai.Client(api_key="gemini_api_key")
 
 system_prompt = f"""
 You are an expert fullstack developer assistant capable of generating complete project structures.
