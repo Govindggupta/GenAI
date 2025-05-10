@@ -27,7 +27,7 @@ def get_relevant_chunks(query):
 
 
 client = OpenAI(
-    api_key="AIzaSyBZOD1sCNjkSpXKpCipMJcDpnU_xl5rUb4",
+    api_key="GEMINI_API_KEY",
     base_url="https://generativelanguage.googleapis.com/v1beta/openai/"
 )
 
