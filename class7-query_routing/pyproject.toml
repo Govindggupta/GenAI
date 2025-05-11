@@ -1,0 +1,10 @@
+[project]
+name = "class7-query-routing"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dotenv>=0.9.9",
+    "openai>=1.78.0",
+]
