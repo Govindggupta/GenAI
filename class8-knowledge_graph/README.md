@@ -26,3 +26,7 @@ entities = [ ] , for entity in entities : MERGE (e:Entity{name : entity.name}) r
 so by this we are adding the entities into the db and similarly relationships can be done 
 
 ### 2. langchain 
+in this method we use langchain to create the knowledge graph and create nodes and edges 
+
+### 3. mem0
+in this mem0 create the graph and also the embedding of the nodes into the vector database
