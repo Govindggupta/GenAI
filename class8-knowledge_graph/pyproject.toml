@@ -5,6 +5,8 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "langchain-neo4j>=0.4.0",
     "mem0ai>=0.1.98",
     "openai>=1.78.1",
+    "rank-bm25>=0.2.2",
 ]
